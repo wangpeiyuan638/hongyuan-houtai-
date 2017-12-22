@@ -1,0 +1,54 @@
+/**
+ * 修改密码页面
+ * */
+body{
+	width: 100%;
+	height: 100%;
+	background-color: #F2F2F2;
+}
+header{
+	line-height: 60px;
+	color: #000000;
+	font-size: 18px;
+	font-weight: 600;
+}
+.inputlist{
+	width: 500px;
+	height: 60px;
+	display: flex;
+	align-items: center;
+}
+.inputlist span{
+	display: inline-block;
+	width: 100px;
+}
+.tex{
+	text-indent: 2em;
+}
+.red{
+	color: #E60012;
+	font-size: 18px;
+	margin-left: 10px;
+}
+.inputlist .account{
+	width: 250px;
+	height: 36px;
+}
+.inputlist .account input{
+	width: 100%;
+	height: 100%;
+	border: none;
+	text-indent: 1em;
+	font-size: 16px;
+	background-color: #FFFFFF;
+	border: 1px solid #E6E6E6;
+}
+.inputlist .account button{
+	padding: 5px 20px;
+	border: none;
+	font-size: 16px;
+	background-color: #E60012;
+	color: #FFFFFF;
+	text-align: center;
+	border-radius: 5px;
+}

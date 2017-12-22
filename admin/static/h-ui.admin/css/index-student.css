@@ -1,0 +1,61 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+li{
+	list-style: none;
+}
+h4{
+	font-weight: normal;
+}
+/*.bg-banner{
+	width: 100%;
+	height: 205px;
+	border: 1px solid #ccc;
+	background: url('../images/index-student.png') no-repeat;
+	background-size: cover;
+}*/
+.table{
+	width: 100%;
+	height: 500px;
+}
+.table ul{
+	display: flex;
+	width: 100%;
+}
+.table ul li{
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	height: 140px;
+	border: 1px solid #e9e9e9;
+}
+.table ul:nth-child(1) li{
+	padding-top: 40px;
+	box-sizing: border-box;
+}
+.table ul li span{
+	width: 140px;
+	height: 140px;
+	background: #fff;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.table ul li img{
+	height: 124px;
+	width: 124px;
+	border-radius: 50%;
+}
+.table ul li h4{
+	font-size: 16px;
+	color: #808080;
+	height: 32px;
+}
+.table ul li p{
+	font-size: 20px;
+	color: #323232;
+}

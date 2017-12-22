@@ -1,0 +1,332 @@
+@charset "utf-8";
+/* 你自己的样式 */
+*{
+	box-sizing: border-box;
+}
+td a{
+	text-decoration: none;
+	color: #97DCFC;
+}
+td a:hover{
+	text-decoration: none;
+	color: #5897FB;
+}
+.color1{
+	color: #97dcf7 !important;
+}
+.bcolor1{
+	background-color: #97dcf7 !important;
+	color: #FFFFFF;
+}
+.marb{
+	margin-bottom: 20px;
+}
+.texts{
+	text-align: start;
+}
+.texte{
+	text-align: end;
+}
+.sear{
+	color: #000000;font-size: 16px;
+}
+.fontw{
+	font-weight: 600;
+}
+.serinput{
+	width: 150px;
+	padding: 3px 0;
+	border: none;
+	border: 1px solid #E0E0E0;
+}
+.mag1{
+	margin: 5px 0;
+}
+/**/
+.leftborder3{
+	border-left: 3px solid #E60012;
+}
+.paddingleft10{
+	padding-left: 15px;
+}
+.fonts24{
+	font-size: 24px;
+}
+.lineh{
+	line-height: 1;
+}
+a{
+	text-decoration:none;
+}
+.hide{
+	display: none;
+}
+/*遮罩*/
+.mark{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: rgba(0,0,0,0.5);
+	z-index: 5;
+}
+/*弹出框*/
+.add-admin{
+	width: 100%;
+	/*max-height:85vh;*/
+	background-color: #FFFFFF;
+	position: absolute;
+	/*top: 60px;
+	left: calc(50% - 300px);*/
+	top: -11px;
+	left: 0;
+	bottom: -100px;
+	z-index: 10;
+}
+/*学生交费弹出框*/
+.pay-money{
+	width: 100%;
+	/*max-height:85vh;*/
+	background-color: #FFFFFF;
+	position: absolute;
+	/*top: 60px;
+	left: calc(50% - 400px);*/
+	top: -11px;
+	left: 0;
+	bottom: -100px;
+	z-index: 10;
+}
+.div-header{
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	color: #FFFFFF;
+	font-size: 18px;
+	background-color: #97dcfc;
+}
+.add-content{
+	width: 100%;
+	max-height: calc(85vh - 50px);
+	overflow-x: hidden;
+	overflow-y: auto;
+	box-sizing: border-box;
+	padding: 40px;
+}
+.add-content2{
+	width: 100%;
+	max-height: calc(85vh - 50px);
+	overflow-x: hidden;
+	overflow-y: auto;
+	box-sizing: border-box;
+	padding: 20px 40px;
+}
+/*交费弹出框*/
+.pay-money-header input{
+	height: 36px;
+	border: none;
+	border: 1px solid #F2F2F2;
+	text-indent: 1em;
+}
+.pay-money-header>input{
+	width: 200px;
+}
+.inputs{
+	width: 100%;
+	min-height: 50px;
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	/*justify-content: space-between;*/
+}
+.inputs>span{
+	padding-top: 5px;
+}
+.inputs-top{
+	align-items: flex-start !important;
+}
+.add-inputs .inputs .input-title{
+	width: 15%;
+	text-align: end;
+}
+.add-inputs .inputs .input-div{
+	width: 85%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	text-align: start;
+}
+.add-inputs .inputs .input-div2{
+	width: 85%;
+	text-align: start;
+}
+.inputs .input-div input,.inputs .input-div select{
+	width: 100%;
+	height: 36px;
+	border: none;
+	border: 1px solid #F2F2F2;
+	text-indent: 1em;
+}
+.inputs .input-div textarea{
+	width: 100%;
+	height: 100px;
+	border: none;
+	border: 1px solid #F2F2F2;
+	text-indent: 1em;
+}
+.inputs .input-div select{
+	height: 36px;
+	border: none;
+	border: 1px solid #F2F2F2;
+}
+/**/
+
+.contflex{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+.add-inputs2{
+	width: 50%;
+}
+.add-inputs2 .inputs .input-title{
+	width: 30%;
+	text-align: end;
+}
+.add-inputs2 .inputs .input-div{
+	width: 70%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	text-align: start;
+}
+
+/*确认和取消按钮*/
+.buttons{
+	width: 100%;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.buttons button{
+	border: none;
+	padding: 5px 20px;
+	color: #FFFFFF;
+	font-size: 16px;
+	border-radius:5px;
+	margin: 0 20px;
+}
+.buttons .cancel{
+	background-color: #E0E6EB;
+}
+.buttons .pickup{
+	background-color: #97DCFC;
+}
+/*上传图片部分*/
+.upload-img{
+	width: 100%;
+}
+.upload-img input{
+	display: none;
+}
+.upload-img label{
+	cursor: pointer;
+	font-size: 20px;
+}
+.upload-img label span{
+	background-color: #C3C3C3;
+	padding: 5px 10px;
+	border-radius: 3px;
+	color: #FFFFFF;
+	font-size: 14px;
+	margin-right: 10px;
+}
+
+/*页码*/
+.pagenum{
+	width: 100%;
+	line-height: 50px;
+	text-align: end;
+}
+.pagenum span,.pagenum i{
+	padding: 0 5px;
+	margin: 0 5px;
+}
+.pagenum span:hover,.pagenum i:hover{
+	cursor: pointer;
+	background: rgba(99,99,99,0.6);
+	color: #FFFFFF;
+}
+/*交费明细*/
+.detail-info td{
+	text-align: start;
+	background-color:#F7F7F7 ;
+}
+/*上传图片按钮*/
+.uploadbtn{
+	width: 80px;
+	height: 30px;
+	ackground: #97dcfc;
+	color: #fff;
+	outline: none;
+	border-radius: 5px;
+	border: none;
+	margin-left: 10px;
+}
+/*转班弹出*/
+.change_class{
+	width: 800px;
+  max-height: 85vh;
+  background-color: #FFFFFF;
+  position: absolute;
+  top: 60px;
+  left: calc(50% - 400px);
+  z-index: 10;
+}
+.change_class_header{
+	   width: 100%;
+    height: 36px;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 0 10px;
+    line-height: 36px;
+    color: #FFFFFF;
+    font-size: 16px;
+    background-color: #97DCF7;
+}
+.change_class_body{
+	width: 100%;
+	padding: 5px 10px;
+}
+.save_class{
+	background-color: #97DCF7;
+	color: white;
+	font-size: 12px;
+}
+.change_class_content{
+	width: 100%;
+}
+.change_class_content table{
+	border-color: lightgray;
+}
+.change_class_content td{
+	height: 40px;
+}
+.change_class_content table tr td:nth-of-type(2n-1){
+	font-size: 14px;
+	text-align: center;
+}
+.change_class_content table tr td:nth-of-type(2n){
+	font-size: 14px;
+	padding-left: 5px;
+}
+.change_class_content input{
+	width: 100%;
+	border: none;
+}
+.change_class_content textarea{
+	width: 100%;
+	height: 100%;
+}

@@ -1,0 +1,53 @@
+/**
+ * 管理员账号
+ * */
+
+/*具体权限*/
+.add-inputs{
+	margin-bottom: 40px;
+}
+.propertyset,.control,.control-col,.control-col .title,.control-col .control-sel{
+	width: 100%;
+}
+.control,.control-col .control-sel{
+	text-align: center;
+}
+.control{
+	height: 40px;
+	line-height: 40px;
+}
+.control button{
+	border: none;
+	background-color: #97DCFC;
+	color: #FFFFFF;
+	padding: 5px 10px;
+	border-radius: 3px;
+	margin: 0 5px;
+}
+.control-col{
+	border: 1px solid #97DCFC;
+	margin-top: 15px;
+}
+.control-col .title{
+	height: 45px;
+	line-height: 45px;
+	padding: 0 20px;
+	display: flex;
+	align-items: center;
+}
+
+.control-col .title{
+	background-color: #97DCFC;
+	justify-content: space-between;
+	color: #FFFFFF;
+}
+.control-col .control-sel{
+	height: 45px;
+	line-height: 45px;
+	padding: 0 20px;
+	display: none;
+	text-align: center;
+}
+.control-col .control-sel label{
+	margin: 0 15px;
+}

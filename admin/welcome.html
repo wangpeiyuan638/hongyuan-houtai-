@@ -1,0 +1,159 @@
+﻿<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<!--[if lt IE 9]>
+		<script type="text/javascript" src="lib/html5shiv.js"></script>
+		<script type="text/javascript" src="lib/respond.min.js"></script>
+		<![endif]-->
+		<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+		<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+		<!--<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />-->
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/welcome.css" />
+		<!--[if IE 6]>
+		<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+		<script>DD_belatedPNG.fix('*');</script>
+		<![endif]-->
+		<title>主页</title>
+		<!--[if ie]>
+			<script type="text/javascript">
+				window.location.href="./ifie.html";
+			</script>
+		<![end if]-->
+	</head>
+
+	<body>
+		<div id="app">
+
+			<nav class="breadcrumb">
+				<i class="Hui-iconfont">&#xe67f;</i>主页
+			</nav>
+			<div class="allcon">
+				<header>
+					<span id="nowtime">{{nowtime | timetran}}</span>，
+					<span id="username">{{userinfo.account}}</span> &nbsp;&nbsp;
+					<a class="resetpsw" href="admin-psw.html">修改密码</a>
+				</header>
+				<div class="wel-content">
+					<div class="session">
+						<div class="userinfo">
+							<div class="bac">
+								<img src="static/h-ui.admin/images/admin-login-bg.jpg" />
+							</div>
+							<div class="userinfo-col martop">
+								<div class="userinfo-pos borderR">
+									<p class="qianse">部门职位</p>
+									<p id="userpos">{{userinfo.pos}}</p>
+								</div>
+								<div class="userinfo-pos">
+									<p class="qianse">登记手机号</p>
+									<p id="userphone">{{userinfo.phone}}</p>
+								</div>
+								<div class="userinfo-img">
+									<img id="userimg" :src="userinfo.img" />
+								</div>
+							</div>
+							<div class="userinfo-col borderT">
+								<div class="userinfo-pos borderR">
+									<p class="qianse">创建时间</p>
+									<p><span id="newsletter">{{userinfo.time}}</span></p>
+								</div>
+								<div class="userinfo-pos">
+									<p class="qianse">地址</p>
+									<p><span id="updataval">{{userinfo.address}}</span></p>
+								</div>
+							</div>
+						</div>
+						<div class="visitor">
+							<div class="div-header">
+								<div class="div-header-cont">
+									<p class="huise">网站浏览量</p>
+									<p class="red">( <span id="browsetimes">{{vistornum}}</span> ) 次</p>
+								</div>
+								<div class="div-header-cont">
+									<select class="radius5" name="month" @click="selected" id="select">
+										<option value="01">1月</option>
+										<option value="02">2月</option>
+										<option value="03">3月</option>
+										<option value="04">4月</option>
+										<option value="05">5月</option>
+										<option value="06">6月</option>
+										<option value="07">7月</option>
+										<option value="08">8月</option>
+										<option value="09">9月</option>
+										<option value="10">10月</option>
+										<option value="11">11月</option>
+										<option value="12">12月</option>
+									</select>
+								</div>
+							</div>
+							<div class="div-session">
+								<div class="sess-img">
+									<img src="static/h-ui.admin/images/12.png" />
+									<p>招生项目管理规划</p>
+								</div>
+							</div>
+							<div class="div-footer borderT">
+								<div class="userinfo-pos borderR">
+									<p><span class="green1">¥</span><span id="allmoney">{{currentMonth | money}}</span></p>
+									<p class="qianse">累计完成任务价值</p>
+								</div>
+								<div class="userinfo-pos">
+									<p id="contrastlastmonth">
+										<i v-if="moneyup" class="Hui-iconfont blue1">&#xe679;</i>
+										<i v-else class="Hui-iconfont blue1">&#xe674;</i>
+										<span>{{moneypre*100}}%</span>
+									</p>
+									<p class="qianse">同上月对比</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="studentsnum">
+						<div class="div-header">
+							<div class="div-header-cont">
+								<p class="huise">当月已招人数</p>
+								<p><span id="getstudents" class="orange font24">{{currentPeople}}</span>(个)</p>
+							</div>
+							<div class="div-header-cont">
+								<p class="huise">与上月对比</p>
+								<p id="contrastlast" class="blue1 font24">
+									<i v-if="peopleup" class="Hui-iconfont">&#xe679;</i>
+									<i v-else class="Hui-iconfont">&#xe674;</i>
+									<span class="blue">{{peoplepre*100}}%</span>
+								</p>
+							</div>
+						</div>
+						<div class="sess-img">
+							<div id="container" style="min-width:700px;height:400px"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+		<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+		<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+
+		<script type="text/javascript" src="lib/hcharts/Highcharts/5.0.6/js/highcharts.js"></script>
+		<script type="text/javascript" src="lib/hcharts/Highcharts/5.0.6/js/modules/exporting.js"></script>
+		<script src="static/h-ui.admin/js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/h-ui.admin/js/ip.js" type="text/javascript" charset="utf-8"></script>
+
+		<!--js操作-->
+		<script src="lib/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/h-ui.admin/js/welcome.js" type="text/javascript" charset="utf-8"></script>
+
+	</body>
+
+</html>

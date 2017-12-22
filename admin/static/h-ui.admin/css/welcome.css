@@ -1,0 +1,189 @@
+/**
+ * 主页CSS样式
+ * */
+*{
+	box-sizing: border-box;
+}
+body{
+	width: 100%;
+	background-color: #F7F7F7;
+}
+.allcon{
+	width: 100%;
+	padding: 40px;
+}
+header{
+	color: #000000;
+	font-size: 16px;
+	font-weight: 500;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #C3C3C3;
+}
+.resetpsw{
+	text-decoration: none;
+	padding: 5px 10px;
+	border-radius: 5px;
+	background-color: #E60012;
+	color: #FFFFFF;
+	font-size: 12px;
+}
+.wel-content{
+	padding-top: 20px;
+}
+/*信息，网站浏览量*/
+.session,.userinfo-col,.div-header,.div-footer{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.userinfo{
+	width: 35vw;
+}
+.visitor{
+	width: 57vw;
+}
+.userinfo,.visitor,.studentsnum{
+	border: 1px solid #C3C3C3;
+	border-radius: 5px;
+	overflow: hidden;
+	background-color: #FFFFFF;
+}
+/*信息*/
+
+.userinfo-col,.studentsnum{
+	width: 100%;
+	position: relative;
+}
+.bac{
+	width: 100%;
+	height: 20vw;
+	overflow: hidden;
+}
+.bac img{
+	width: 100%;
+}
+.userinfo-img{
+	width: 15vw;
+	height: 15vw;
+	border-radius: 50%;
+	overflow: hidden;
+	border: 1vw solid #FFFFFF;
+	background-color: #F2F2F2;
+	position: absolute;
+	top: -12vw;
+	left: calc(50% - 7.5vw);
+}
+.userinfo-img img{
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+}
+
+.userinfo-pos{
+	width: 50%;
+	padding: 1rem;
+	text-align: center;
+}
+.martop{
+	margin-top: 50px;
+}
+.userinfo-pos p{
+	font-size: 1.3rem;
+	text-align: center;
+}
+/*网站浏览量*/
+.visitor{
+	position: relative;
+}
+.div-header{
+	align-items: center;
+}
+.div-header-cont{
+	width: 15vw;
+	text-align: center;
+	padding: 1rem;
+}
+.div-header-cont p{
+	font-size: 1.3rem;
+	text-align: center;
+}
+.div-header-cont select{
+	width: 4vw;
+	height: 2vw;
+}
+.div-session{
+	width: 100%;
+	text-align: center;
+}
+.div-session .sess-img{
+	width: 30%;
+	margin: 20px auto;
+	position: relative;
+}
+.div-session .sess-img img{
+	width: 100%;
+}
+.div-session .sess-img p{
+	width: 8vw;
+	font-size: 2vw;
+	position: absolute;
+	top: calc(50% - 2.5vw);
+	left: calc(50% - 4vw);
+}
+.div-footer{
+	position: absolute;
+	bottom: 0;
+}
+/*柱状图*/
+
+.studentsnum .font24{
+	font-size: 28px;
+}
+
+
+
+/*柱状图*/
+.studentsnum{
+	margin-top: 40px;
+}
+/*通用样式*/
+.radius5{
+	border-radius: 5px;
+}
+.borderA{
+	border: 1px solid #C3C3C3;
+}
+.borderT{
+	border-top: 1px solid #C3C3C3;
+}
+.borderR{
+	border-right: 1px solid #C3C3C3;
+}
+.borderL{
+	border-left: 1px solid #C3C3C3;
+}
+.borderB{
+	border-bottom: 1px solid #C3C3C3;
+}
+.red{
+	color: #E60012;
+}
+.huise{
+	color: #666666;
+}
+.black{
+	color: #231815;
+}
+.qianse{
+	color: #C3C3C3;
+}
+.orange{
+	color: orangered;
+}
+.green1{
+	color: #53ef85;
+}
+.blue1{
+	color: #1a91de;
+}

@@ -1,0 +1,874 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<!--[if lt IE 9]>
+		<script type="text/javascript" src="lib/html5shiv.js"></script>
+		<script type="text/javascript" src="lib/respond.min.js"></script>
+		<![endif]-->
+		<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+		<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+		<!--[if IE 6]>
+		<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+		<script>DD_belatedPNG.fix('*');</script>
+		<![endif]-->
+		<title>班级管理</title>
+		<!--[if ie]>
+			<script type="text/javascript">
+				window.location.href="./ifie.html";
+			</script>
+		<![end if]-->
+	</head>
+
+	<body>
+		<div id="app">
+			<nav class="breadcrumb">
+				<i class="Hui-iconfont">&#xe67f;</i>校园管理
+				<span class="c-gray en">&gt;</span> 班级管理
+			</nav>
+			<div class="page-container">
+				<div class="cl texts marb">
+					<span class="sear">所属分校：</span>&nbsp;
+					<select style="padding: 4px 0;" id="search_schoolId">
+						<option value="">请选择分校</option>
+						<option v-for="item in school" :value="item.id">{{item.iname}}</option>
+					</select>&nbsp;&nbsp;&nbsp;&nbsp;
+					<span class="sear">班级名称：</span>&nbsp;
+					<input class="serinput" type="text" id="search_className" />&nbsp;&nbsp;
+					<span>
+					<a class="btn btn-danger radius" href="javascript:;" @click="search">
+						查询
+					</a> 
+				</span>
+				</div>
+				<div class="cl texte marb">
+					<span>
+					<a class="btn btn-secondary radius bcolor1" href="javascript:;" download="班级.xls" onclick="return ExcellentExport.excel(this, 'datatable', 'Sheet Name Here');">
+						导出Excel表格
+					</a> 
+				</span>
+					<span>
+					<a class="btn btn-secondary radius bcolor1" href="javascript:;" @click="addnew">
+						新增班级
+					</a> 
+				</span>
+				</div>
+				<table id="datatable" class="table table-border table-bordered table-hover table-bg">
+					<thead>
+						<tr class="text-c">
+							<th class="bcolor1" width="100">序号</th>
+							<th class="bcolor1" width="200">班级名称</th>
+							<th class="bcolor1" width="200">班级类型</th>
+							<th class="bcolor1" width="200">收费模式</th>
+							<th class="bcolor1" width="100">人数(人)</th>
+							<th class="bcolor1" width="250">开班日期</th>
+							<th class="bcolor1" width="250">课程进度</th>
+							<th class="bcolor1" width="200">班级状态</th>
+							<th class="bcolor1" width="300">详情/操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="text-c " v-for="(one,ind) in list">
+							<td>{{ind + 1}}</td>
+							<td>{{one.iname}}</td>
+							<td>{{one.type}}</td>
+							<td><span v-if="(one.chargingMode == 'B1')">扣课时</span><span v-if="(one.chargingMode == 'B2')">按期收费</span></td>
+							<td>{{one.studentNumber}}</td>
+							<td>{{one.startTime}}</td>
+							<td><span style="color: #ffdb84;">已上{{one.useClassFrequency}}</span>&#47;<span style="color: #a9d880;">未上{{one.sumClassFrequency-one.useClassFrequency}}</span></td>
+							<td><span v-if="(one.state == 'B1')">预开班</span><span v-if="(one.state == 'B2')">进行中</span><span v-if="(one.state == 'B3')">已毕业</span></td>
+							<td class="f-14">
+								<a title="编辑" href="javascript:;" @click="modifythis(one.classId)" class="ml-5">编辑</a>
+								<a title="删除" href="javascript:;" @click="del(one.classId,one.studentNumber)" class="ml-5">删除</a>
+								<a title="排课" href="javascript:;" @click="course(one.classId,one.iname)" class="ml-5">排课</a>
+								<a title="升班" href="javascript:;" @click="goup(one.classId,one.riseClassState,one.schoolId)" class="ml-5" v-if="(one.riseClassState == 1)" style="color: #dd0000;">已升班</a>
+								<a title="升班" href="javascript:;" @click="goup(one.classId,one.riseClassState,one.schoolId)" class="ml-5" v-else-if=" one.riseClassState == 0 ">升班</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="pagenum" v-if="pagesize>0">
+				第{{nowpage}}页共({{pagesize}})页
+					<!--首页-->
+					<i class="Hui-iconfont" @click="gopage(1)">&#xe67d;</i>
+					<!--上一页-->
+					<i class="Hui-iconfont" @click="gopage(-1)">&#xe6d4;</i>
+					
+					<span>{{nowpage}}</span>
+					<!--<span v-for="ind in pagesize" @click="gopage(ind)">{{ind}}</span>-->
+					<!--下一页-->
+					<i class="Hui-iconfont" @click="gopage(-2)">&#xe6d7;</i>
+					<!--尾页-->
+					<i class="Hui-iconfont" @click="gopage(pagesize)">&#xe63d;</i>
+					到 <input type="text" id="topage" style="width: 50px;" /> 页
+					 <input type="submit" style="width: 50px;" value="确定" @click="getvalue()"/>
+				</div>
+			</div>
+			<!--遮罩-->
+			<div id="mark"  v-show="isadd || ismodify || iscourse || isgoup ||iscourseall ||iscourses" class="mark"></div>
+			<!--添加-->
+			<div class="pay-money" v-show="isadd">
+				<div class="div-header">
+					新增班级
+				</div>
+				<div class="add-content">
+					<div class="add-inputs">
+						<div class="inputs">
+							<div class="input-title">所在分校&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<select name="" id="choose">
+									<option  v-for="item in school" :value="item.id">{{item.iname}}</option>
+								</select>&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">所属类别&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<!--<select name="" id="category">
+									<option value="甲班">甲班</option>
+									<option value="乙班">乙班</option>
+									<option value="丙班">丙班</option>
+									<option value="丁班">丁班</option>
+									<option value="戊班">戊班</option>
+									<option value="己班">己班</option>
+								</select>-->
+								
+								<input type="text" id="category" />&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">
+								班级名称&nbsp;&nbsp;
+							</div>
+							<div class="input-div">
+								<input type="text" id="classname" />&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">班级类型&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<select name="" id="classtype">
+									<option value="常规班">常规班</option>
+									<option value="周末班">周末班</option>
+								</select>&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">教练&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<input type="text" id="teacher" />&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">开始时间&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<input placeholder="请输入日期" class="laydate-icon" onclick="laydate()" id="startTime">&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">班级编号&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<input type="text" id="Number" />&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">班级状态&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<select name="" id="state">
+									<option value="B1">预开班</option>
+									<option value="B2">进行中</option>
+									<!--<option value="B3">已毕业</option>-->
+								</select>&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">预招人数&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<input type="text" id="people" />&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">结束时间&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<input placeholder="请输入日期" class="laydate-icon" onclick="laydate()" id="endTime">&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">收费模式&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<select name="" id="chargingMode" @change="isClassHour()">
+									<option value="B1">扣课时</option>
+									<option value="B2">按期收费</option>
+								</select>&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs" v-show="isCost" style="display: none;">
+							<div class="input-title">费用选择&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<input type="text" id="tuition"/>&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div v-show="isClassHours" style="display: none;">
+						<table id="datatable" class="table table-border table-bordered table-hover table-bg" >
+							<thead>
+								<tr class="text-c">
+									<th class="bcolor1" width="200">
+										<input type="checkbox" name="" id="allchoose_add" value="" @click="checkall('allchoose_add', 'checked_add')" />全选
+									</th>
+									<th class="bcolor1" width="200">课程名称</th>
+									<th class="bcolor1" width="200">标准课时</th>
+									<th class="bcolor1" width="200">课时收费</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="text-c" v-for="(item,index) in curriculum" >
+									<!--<td class="checkbox"><input type="checkbox" name="checkbox" id="" @click="click(index)" :value="index"/></td>-->
+									<td class="checkbox">
+										<input type="checkbox" class="checked_add" name="checkbox"/>
+									</td>
+									<td class="inames"><input type="text" :value="item.iname" readonly="readonly"/></td>
+									<td class="classHours"><input type="text" :value="item.classHour" /></td>
+									<td class="moneys"><input type="text" :value="item.money" /></td>
+									<td class="hidden"><input type="hidden" name="operate" :value="item.curriculumId"/></td>
+									
+								</tr>
+							</tbody>
+						</table>
+						</div>
+						<div class="buttons">
+							<button class="cancel" @click="hide(1)">取消</button>
+							<button class="pickup" @click="add">确定</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--编辑-->
+			<div class="pay-money" v-show="ismodify" style="display: none;">
+				<div class="div-header">
+					编辑班级
+				</div>
+				<div class="add-content">
+					<div class="add-inputs">
+						<div class="inputs">
+							<div class="input-title">所在分校&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<select name="etc_choose" id="etc_choose"  v-model="selected_choose">
+									<option v-for="item in school" :value="item.id">{{item.iname}}</option>
+								</select>&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">所属类别&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<!--<select name="" id="etc_category"  v-model="selected_category">
+									<option value="甲班">甲班</option>
+									<option value="乙班">乙班</option>
+									<option value="丙班">丙班</option>
+									<option value="丁班">丁班</option>
+									<option value="戊班">戊班</option>
+									<option value="己班">己班</option>
+								</select>-->
+								<input type="text" id="etc_category" />&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">
+								班级名称&nbsp;&nbsp;
+							</div>
+							<div class="input-div">
+								<input type="text" id="etc_classname" />&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">班级类型&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<select name="" id="etc_classtype" v-model="selected_classtype">
+									<option value="常规班">常规班</option>
+									<option value="周末班">周末班</option>
+								</select>&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">教练&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<input type="text" id="etc_teacher" />&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">开始时间&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<input placeholder="请输入日期" class="laydate-icon" onclick="laydate()" id="etc_startTime">&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">班级编号&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<input type="text" id="etc_Number" />&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">班级状态&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<select name="" id="etc_state" v-model="selected_state">
+									<option value="B1">预开班</option>
+									<option value="B2">进行中</option>
+									<!--<option value="B3">已毕业</option>-->
+								</select>&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">预招人数&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<input type="text" id="etc_people" />&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">结束时间&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<input placeholder="请输入日期" class="laydate-icon" onclick="laydate()" id="etc_endTime">&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">收费模式&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<select name="" id="etc_chargingMode" v-model="selected_chargingMode" @change="isClassHour9()">
+									<option value="B1">扣课时</option>
+									<option value="B2">按期收费</option>
+								</select>&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs" v-show="isCost2" style="display: none;">
+							<div class="input-title">费用选择&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<input type="text" id="etc_tuition"/>&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div v-show="isClassHours2" style="display: none;">
+						<table id="datatable_ext" class="table table-border table-bordered table-hover table-bg" >
+							<thead>
+								<tr class="text-c">
+									<!--<th class="bcolor1" width="200"><input type="checkbox" name="" id="allchoose_ext" value="" />全选</th>-->
+									<th class="bcolor1" width="200">
+										<input type="checkbox" id="checkall_edit" name="" @click="checkall('checkall_edit', 'checked_edit')"  :disabled='disabled_studentNumber'/>全选
+									</th>
+									<th class="bcolor1" width="200">课程名称</th>
+									<th class="bcolor1" width="200">标准课时</th>
+									<th class="bcolor1" width="200">课时收费</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="text-c" v-for="(item,index) in curriculum" >
+									<td class="checkbox">
+										<!--<input type="checkbox" name="checkbox" id="" @click="click(index)" :value="index" :disabled='disabled_studentNumber'/>-->
+										<input type="checkbox" name="checkbox" class="checked_edit" :disabled='disabled_studentNumber'/>
+									</td>
+									<td class="inames"><input type="text" name=""  :value="item.iname" :disabled='disabled_studentNumber'/></td>
+									<td class="classHours"><input type="text" name=""  :value="item.classHour" :disabled='disabled_studentNumber'/></td>
+									<td class="moneys"><input type="text" name="" :value="item.money" :disabled='disabled_studentNumber'/></td>
+									<td class="hidden"><input type="hidden" name="operate" :value="item.curriculumId" /></td>
+									
+								</tr>
+							</tbody>
+						</table>
+						</div>
+						<input type="hidden" id="hidden_id" />
+						<input type="hidden" id="hidden_studentNumber" />
+						<div class="buttons">
+							<button class="cancel" @click="hide(1)">取消</button>
+							<button class="pickup" @click="modify">修改</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--排课-->
+			<div class="pay-money" v-show="iscourses" style="display: none;">
+				<div class="div-header">
+					排课
+				</div>
+				<div class="add-content">
+				<table id="datatable" class="table table-border table-bordered table-hover table-bg" >
+					<thead>
+						<tr class="text-c">
+							<th class="bcolor1" width="200">课程名称</th>
+							<th class="bcolor1" width="200">标准课时</th>
+							<th class="bcolor1" width="200">课时收费</th>
+							<th class="bcolor1" width="200">已排课次</th>
+							<th class="bcolor1" width="200">已排课时</th>
+							<th class="bcolor1" width="200">已上课时</th>
+							<th class="bcolor1" width="200">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="text-c" v-for="(item,index) in isCurriculum" >
+							<td class="inames">{{item.name}}</td>
+							<td class="classHours">{{item.iclassHour}}</td>
+							<td class="moneys">{{item.imoeny}}</td>
+							<td class="moneys">{{item.classFrequency}}</td>
+							<td class="moneys">{{item.useClassHour}}</td>
+							<td class="moneys">{{item.attendClassHour}}</td>
+							<td class="hidden"><input type="hidden" name="operate" :value="item.curriculumId"/></td>
+							<td class="hiddens">
+							<button class="cancel" @click="schedule(item.classCurriculumId,item.name)">排课</button>
+							<button class="pickup" @click="gotoClass(item.classCurriculumId)">查看进度</button></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="buttons">
+					<button class="cancel" @click="hide(1)">取消</button>
+				</div>
+				</div>
+				
+			</div>
+			
+			<!--下级排课-->
+			<div class="pay-money" v-show="iscourse" style="display: none;">
+				<div class="div-header">
+					排课
+				</div>
+				<div class="add-content">
+					<div class="add-inputs">
+						<div class="inputs">
+							<div class="input-title">班级名称：&nbsp;&nbsp;</div>
+							<div class="input-div">
+								{{iname}}
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">课程名称：&nbsp;&nbsp;</div>
+							<div class="input-div">
+								{{name}}
+							</div>
+						</div>
+						<div class="contflex">
+						<div class="add-inputs2">
+							<div class="inputs">
+								<div class="input-title">排课开始时间&nbsp;&nbsp;</div>
+								<div class="input-div">
+									<input type="text" class="laydate-icon" onclick="laydate()"  id="pk_date"/>
+								</div>
+							</div>
+						</div>
+						<div class="add-inputs2">
+							<div class="inputs">
+								<div class="input-title">排课课次&nbsp;&nbsp;</div>
+								<div class="input-div">
+									<input type="text" id="pk_sumClassHour"/>
+								</div>
+							</div>
+						</div>
+						</div>
+						<table class="table table-border table-bordered table-hover table-bg">
+							<thead>
+								<tr class="text-c">
+									<th class="bcolor1" width="200">星期</th>
+									<th class="bcolor1" width="200">开始时/分</th>
+									<th class="bcolor1" width="200">结束时/分</th>
+									<th class="bcolor1" width="200">每次的课时</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="text-c ">
+									<td>
+										<select name="" id="pk_iweek">
+											<option value="1">星期日</option>
+											<option value="2">星期一</option>
+											<option value="3">星期二</option>
+											<option value="4">星期三</option>
+											<option value="5">星期四</option>
+											<option value="6">星期五</option>
+											<option value="7">星期六</option>
+											<option value="8">每日</option>
+										</select>
+									</td>
+									<td>
+										<select name="" id="pk_startTime_h">
+											<option v-for="(num,ind) in hours" :value="num" >{{num}}</option>
+										</select>
+										:
+										<select name="" id="pk_startTime_s">
+											<option v-for="(num,ind) in minutes" :value="num" >{{num}}</option>
+										</select>
+									</td>
+									<td>
+										<select name="" id="pk_endTime_h">
+											<option v-for="(num,ind) in hours" :value="num" >{{num}}</option>
+										</select>
+										:
+										<select name="" id="pk_endTime_s">
+											<option v-for="(num,ind) in minutes" :value="num" >{{num}}</option>
+										</select>
+									</td>
+									<td><input type="text"  value="0"  id="pk_classHour"/></td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="buttons">
+							<button class="cancel" @click="hide(1)">取消</button>
+							<button class="pickup" @click="returnOne()">返回上一页</button>
+							<button class="pickup" @click="modifyCour(classCurriculumId)">修改</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!--具体排课信息-->
+			<div class="pay-money" v-show="iscourseall" style="display: none;">
+				<div class="div-header">
+					课程进度
+				</div>
+				<div class="add-content">
+				<table id="datatable" class="table table-border table-bordered table-hover table-bg" >
+					<thead>
+						<tr class="text-c">
+							<th class="bcolor1" width="200">课时</th>
+							<th class="bcolor1" width="200">开始时间/th>
+							<th class="bcolor1" width="200">开始时/分</th>
+							<th class="bcolor1" width="200">结束时/分</th>
+							<th class="bcolor1" width="200">星期</th>
+							<th class="bcolor1" width="200">状态</th>
+							<th class="bcolor1" width="200">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="text-c" v-for="(item,index) in curriculumSchedule" >
+							<td class="inames">{{item.classHour}}</td>
+							<td class="classHours">{{item.idate.split(':')[0].split(' ')[0]}}</td>
+							<td class="moneys">{{item.startTime}}</td>
+							<td class="moneys">{{item.endTime}}</td>
+							<td class="moneys">
+								<span  v-if=" item.iweek == 1 ">星期日</span>
+								<span  v-if=" item.iweek == 2 ">星期一</span>
+								<span  v-if=" item.iweek == 3 ">星期二</span>
+								<span  v-if=" item.iweek == 4 ">星期三</span>
+								<span  v-if=" item.iweek == 5 ">星期四</span>
+								<span  v-if=" item.iweek == 6 ">星期五</span>
+								<span  v-if=" item.iweek == 7 ">星期六</span>
+								<span  v-if=" item.iweek == 8 ">每日</span>
+								<span v-else> </span>
+							</td>
+							<td class="moneys"><span  v-if=" item.state == 'B1' ">未上课</span><span v-else>已上课</span></td>
+							<td class="hidden"><input type="hidden" name="operate" :value="item.curriculumId"/></td>
+							<td class="hiddens">
+							<button class="cancel" @click="classBegins(item.curriculumScheduleId)" v-if=" item.state == 'B1' ">上课</button>
+							<button class="cancel" @click="class_del_pk(item.curriculumScheduleId)" >删除</button>
+							</td>
+						</tr>
+					</tbody>
+					
+				</table>
+				<div class="pagenum" v-if="pagesize1>0">
+				第{{nowpage1}}页共({{pagesize1}})页
+					<!--首页-->
+					<i class="Hui-iconfont" @click="gopage1(1)">&#xe67d;</i>
+					<!--上一页-->
+					<i class="Hui-iconfont" @click="gopage1(-1)">&#xe6d4;</i>
+					
+					<span>{{nowpage1}}</span>
+					<!--<span v-for="ind in pagesize" @click="gopage(ind)">{{ind}}</span>-->
+					<!--下一页-->
+					<i class="Hui-iconfont" @click="gopage1(-2)">&#xe6d7;</i>
+					<!--尾页-->
+					<i class="Hui-iconfont" @click="gopage1(pagesize1)">&#xe63d;</i>
+					到 <input type="text" id="topage1" style="width: 50px;" /> 页
+					 <input type="submit" style="width: 50px;" value="确定" @click="getvalue1()"/>
+				</div>
+				<div class="buttons">
+					<button class="cancel" @click="hide(1)">取消</button>
+					<button class="pickup" @click="returnOne()">返回上一页</button>
+				</div>
+				</div>
+				
+			</div>
+			
+			<!--具体排课情况-->
+			<!--<div class="pay-money" v-show="iscourseall" style="display: none;">
+				<div class="div-header">
+					班级周排课情况
+				</div>
+				<div class="add-content2">
+					<div class="add-inputs">
+						
+						<table class="table table-border table-bordered table-hover table-bg">
+							<thead>
+								<tr class="text-c">
+									<th class="bcolor1" width="200"><p>2017/08/06</p><p>星期日</p></th>
+									<th class="bcolor1" width="200"><p>2017/08/07</p><p>星期一</p></th>
+									<th class="bcolor1" width="200"><p>2017/08/08</p><p>星期二</p></th>
+									<th class="bcolor1" width="200"><p>2017/08/09</p><p>星期三</p></th>
+									<th class="bcolor1" width="200"><p>2017/08/10</p><p>星期四</p></th>
+									<th class="bcolor1" width="200"><p>2017/08/11</p><p>星期五</p></th>
+									<th class="bcolor1" width="200"><p>2017/08/12</p><p>星期六</p></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="text-c ">
+									<td>
+										<p>时段：08:00-12:00</p>
+										<p>地址：**********************</p>
+										<p>课程：**********************</p>
+									</td>
+									<td>
+										<p>时段：08:00-12:00</p>
+										<p>地址：**********************</p>
+										<p>课程：**********************</p>
+									</td>
+									<td>
+										<p>时段：08:00-12:00</p>
+										<p>地址：**********************</p>
+										<p>课程：**********************</p>
+									</td>
+									<td>
+										<p>时段：08:00-12:00</p>
+										<p>地址：**********************</p>
+										<p>课程：**********************</p>
+									</td>
+									<td>
+										<p>时段：08:00-12:00</p>
+										<p>地址：**********************</p>
+										<p>课程：**********************</p>
+									</td>
+									<td>
+										<p>时段：08:00-12:00</p>
+										<p>地址：**********************</p>
+										<p>课程：**********************</p>
+									</td>
+									<td>
+										<p>时段：08:00-12:00</p>
+										<p>地址：**********************</p>
+										<p>课程：**********************</p>
+									</td>
+								</tr>
+							</tbody>
+						</table>datatable
+					</div>
+				</div>
+			</div>-->
+			
+			<!--升班-->
+			<div class="pay-money" v-show="isgoup" style="display: none;">
+				<div class="div-header">
+					升班
+				</div>
+				<div class="add-content">
+					<div class="contflex">
+						<div class="add-inputs2">
+							<div class="inputs">
+								<div class="input-title">所在校区&nbsp;&nbsp;</div>
+								<div class="input-div">
+									<select name="" id="Promoted_choose"  v-model="selected_choose_1">
+										<option  v-for="item in school" :value="item.id">{{item.iname}}</option>
+									</select>&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+								</div>
+							</div>
+							<div class="inputs">
+								<div class="input-title">所属类别&nbsp;&nbsp;</div>
+								<div class="input-div">
+									<!--<select name="" id="Promoted_category">
+										<option value="甲班">甲班</option>
+										<option value="乙班">乙班</option>
+										<option value="丙班">丙班</option>
+										<option value="丁班">丁班</option>
+										<option value="戊班">戊班</option>
+										<option value="己班">己班</option>
+									</select>-->
+									
+									<input type="text" id="Promoted_category" />&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+								</div>
+							</div>
+							<div class="inputs">
+								<div class="input-title">班级名称&nbsp;&nbsp;</div>
+								<div class="input-div">
+									<input type="hidden" id="hidden_classId"/>
+									<input type="text" id="Promoted_classname" />&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+								</div>
+							</div>
+							<div class="inputs">
+								<div class="input-title">班级类型&nbsp;&nbsp;</div>
+								<div class="input-div">
+									<select name="" id="Promoted_classtype">
+										<option value="常规班">常规班</option>
+										<option value="周末班">周末班</option>	
+									</select>&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+								</div>
+							</div>
+
+							<div class="inputs">
+								<div class="input-title">教练&nbsp;&nbsp;</div>
+								<div class="input-div">
+									<input type="text" id="Promoted_teacher" />&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+								</div>
+							</div>
+
+							<div class="inputs">
+								<div class="input-title">开始时间&nbsp;&nbsp;</div>
+								<div class="input-div">
+									<input type="text" placeholder="请输入日期" id="Promoted_startTime" class="laydate-icon" onclick="laydate()" />&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="add-inputs2">
+							<div class="inputs">
+								<div class="input-title"></div>
+								<div class="input-div"></div>
+							</div>
+							<div class="inputs">
+								<div class="input-title"></div>
+								<div class="input-div"></div>
+							</div>
+							<div class="inputs">
+								<div class="input-title">班级编号&nbsp;&nbsp;</div>
+								<div class="input-div">
+									<input type="text" id="Promoted_Number" />&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+								</div>
+							</div>
+							<div class="inputs">
+								<div class="input-title">班级状态&nbsp;&nbsp;</div>
+								<div class="input-div">
+									<select name="" id="Promoted_state">
+										<option value="B1">预开班</option>
+										<option value="B2">进行中</option>
+									</select>&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+								</div>
+							</div>
+							<div class="inputs">
+								<div class="input-title">预招人数&nbsp;&nbsp;</div>
+								<div class="input-div">
+									<input type="text" id="Promoted_people" />&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+								</div>
+							</div>
+
+							<div class="inputs">
+								<div class="input-title">结束时间&nbsp;&nbsp;</div>
+								<div class="input-div">
+									<input placeholder="请输入日期" class="laydate-icon" onclick="laydate()" id="Promoted_endTime">&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="add-inputs">
+						<div class="inputs">
+							<div class="input-title">备注&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<input type="text" id="Promoted_beizhu" />&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs">
+							<div class="input-title">收费模式&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<select name="" id="chargingModes" @change="isClassHour10()">
+									<option value="B1">扣课时</option>
+									<option value="B2">按期收费</option>
+								</select>&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div class="inputs" v-show="isCost3" style="display: none;">
+							<div class="input-title">费用选择&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<input type="text" id="tuition_sf"/>&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+							</div>
+						</div>
+						<div v-show="isClassHours3" style="display: none;">
+						<table id="datatable_student" class="table table-border table-bordered table-hover table-bg" >
+							<thead>
+								<tr class="text-c">
+									<th class="bcolor1" width="200">
+										<input type="checkbox" id="allchoose_grow" @click="checkall('allchoose_grow', 'checked_grow')" />全选
+									</th>
+									<th class="bcolor1" width="200">课程名称</th>
+									<th class="bcolor1" width="200">标准课时</th>
+									<th class="bcolor1" width="200">课时收费</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="text-c" v-for="(item,index) in curriculum" >
+									<td class="checkbox">
+										<input type="checkbox" name="checkbox" class="checked_grow"/>
+									</td>
+									<td class="inames"><input type="text" name="" id="" :value="item.iname" readonly="readonly"/></td>
+									<td class="classHours"><input type="text" name="" id="" :value="item.classHour" /></td>
+									<td class="moneys"><input type="text" name="" id="" :value="item.money" /></td>
+									<td class="hidden"><input type="hidden" name="operate" :value="item.curriculumId"/></td>
+									
+								</tr>
+							</tbody>
+						</table>
+						</div>
+					</div>
+					<div class="inputs">
+						<div class="input-title" style="color: #E60012;">请选择要升班的学员</div>
+						<div class="input-div"></div>
+					</div>
+					<table id="table_class_stu" class="table table-border table-bordered table-hover table-bg">
+						<thead>
+							<tr class="text-c">
+								<th class="bcolor1" width="200">
+									<input type="checkbox" name="" class="wocao" id="allchoose_grow_student" @click="checkall('allchoose_grow_student', 'checked_grow_student')" />全选
+								</th>
+								<th class="bcolor1" width="100">学员姓名</th>
+								<th class="bcolor1" width="150">性别</th>
+								<th class="bcolor1" width="150">学员电话</th>
+								<th class="bcolor1" width="150">备注</th>
+								<th class="bcolor1" width="150">选班状态</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="text-c " v-for="(one,ind) in studentlist">
+								<td class="checkbox">
+									<input type="checkbox" name="checkboxe" class="checked_grow_student"  />
+								</td>
+								<!--<td class="checkbox"><input type="checkbox" name="checkboxe" id=""  :value="ind" /></td>-->
+								<td>
+									{{one.iname}}
+								</td>
+								<td>
+									{{one.sex}}
+								</td>
+								<td>
+									{{one.phone}}
+								</td>
+								<td>{{one.remarks}}</td>
+								<td>正常</td>
+								<td class="hidden"><input type="hidden" :value="one.studentId"/></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="buttons">
+						<button class="cancel" @click="hide(1)">取消</button>
+						<button class="pickup" @click="okgoup">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--_footer 作为公共模版分离出去-->
+		<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+		<!--<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>-->
+		<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+		<script src="static/h-ui.admin/js/ip.js" type="text/javascript" charset="utf-8"></script>
+		<!--/_footer 作为公共模版分离出去-->
+
+		<!--请在下方写此页面业务相关的脚本-->
+		<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+		<script src="lib/laydate/laydate.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/exportExcel/excellentexport.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/h-ui.admin/js/config.js" type="text/javascript" charset="utf-8"></script>
+		
+		<script src="lib/PCASClass.js" type="text/javascript" charset="utf-8"></script>
+
+		<script src="lib/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/h-ui.admin/js/class.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

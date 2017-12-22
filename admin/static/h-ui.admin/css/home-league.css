@@ -1,0 +1,33 @@
+*{
+	
+}
+.inputs{
+	display: flex;
+	width: 100%;
+	padding-left: 200px;
+	margin-bottom: 40px;
+}
+.input-title{
+	padding-right: 10px;
+}
+.morepadding{
+	padding-right: 32px;
+}
+textarea{
+	width: 480px;
+	height: 200px;
+}
+.mody{
+	padding-left: 200px;
+	
+}
+.btmody{
+	margin-left: 300px;
+	width: 80px;
+	height: 30px;
+	background: #97DCFC;
+	color: #fff;
+	outline: none;
+	border: 1px solid #97DCFC;
+	border-radius: 5px;
+}

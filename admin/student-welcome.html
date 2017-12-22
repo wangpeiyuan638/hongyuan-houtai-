@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<!--[if lt IE 9]>
+		<script type="text/javascript" src="lib/html5shiv.js"></script>
+		<script type="text/javascript" src="lib/respond.min.js"></script>
+		<![endif]-->
+		<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+		<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+		<!--<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />-->
+		<!--<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/welcome.css" />-->
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/index-student.css" />
+		<!--[if IE 6]>
+		<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+		<script>DD_belatedPNG.fix('*');</script>
+		<![endif]-->
+		<title>主页</title>
+		<!--[if ie]>
+			<script type="text/javascript">
+				window.location.href="./ifie.html";
+			</script>
+		<![end if]-->
+	</head>
+
+	<body>
+		<div id="app">
+
+			<nav class="breadcrumb">
+				<i class="Hui-iconfont">&#xe67f;</i>主页
+			</nav>
+			<div class="allcon">
+				<header>
+					<span id="nowtime">{{nowtime | timetran}}</span>，
+					<span id="username">{{students.userName}}</span> &nbsp;&nbsp;
+				</header>
+				<div class="bg-banner">
+					<img src="static/h-ui.admin/images/index-student.png" style="width: 100%;height: 205px;"/>
+				</div>
+				<div class="table">
+					<ul>
+						<li>
+							<h4>学员姓名</h4>
+							<p>{{students.iname}}</p>
+						</li>
+						<li>
+							<h4>所在校区</h4>
+							<p>{{school.iname}}</p>
+						</li>
+						<li style="padding-top: 0;">
+							<span style="margin-top: -100px;"><img :src="'http://119.23.28.239:8080/resources/img/'+headImg" alt="学生头像"/></span>
+							<h4>学员电话</h4>
+							<p>{{students.phone}}</p>
+						</li>
+						<li>
+							<h4>学号</h4>
+							<p>{{students.number}}</p>
+						</li>
+						<li>
+							<h4>性别</h4>
+							<p>{{students.sex}}</p>
+						</li>
+					</ul>
+					<ul>
+						<li>
+							<h4>报名日期</h4>
+							<p>{{students.idate}}</p>
+						</li>
+						<li>
+							<h4>QQ</h4>
+							<p>{{students.qq}}</p>
+						</li>
+						<li>
+							<h4>邮箱</h4>
+							<p>{{students.email}}</p>
+						</li>
+						<li>
+							<h4>年级</h4>
+							<p>{{students.grade}}</p>
+						</li>
+						<li>
+							<h4>来源学校</h4>
+							<p>{{students.sourceSchool}}</p>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+
+		<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+		<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+		<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+
+		<script type="text/javascript" src="lib/hcharts/Highcharts/5.0.6/js/highcharts.js"></script>
+		<script type="text/javascript" src="lib/hcharts/Highcharts/5.0.6/js/modules/exporting.js"></script>
+		<!--<script src="static/h-ui.admin/js/config.js" type="text/javascript" charset="utf-8"></script>-->
+		<script src="static/h-ui.admin/js/ip.js" type="text/javascript" charset="utf-8"></script>
+
+		<!--js操作-->
+		<script src="lib/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/h-ui.admin/js/student-welcome.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

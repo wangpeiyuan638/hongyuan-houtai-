@@ -1,0 +1,329 @@
+<!DOCTYPE HTML>
+<html>
+<style type="text/css" rel="stylesheet">
+	.currentPage {
+		color: white;
+		background-color: gray;
+	}
+	.hoverInput:focus{
+		outline: 2px solid lightcyan;
+		box-shadow: 0 0 4px 0 lightcyan;
+	}
+	.hoverInput:hover{
+		border: 1px solid gray;
+	}
+</style>
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<!--[if lt IE 9]>
+		<script type="text/javascript" src="lib/html5shiv.js"></script>
+		<script type="text/javascript" src="lib/respond.min.js"></script>
+		<![endif]-->
+		<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+		<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+		<!--[if IE 6]>
+		<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+		<script>DD_belatedPNG.fix('*');</script>
+		<![endif]-->
+		<title>校园管理-学生交费</title>
+		<!--[if ie]>
+			<script type="text/javascript">
+				window.location.href="./ifie.html";
+			</script>
+		<![end if]-->
+	</head>
+
+	<body>
+
+		<div id="app">
+			<nav class="breadcrumb">
+				<i class="Hui-iconfont">&#xe67f;</i>校园管理
+				<span class="c-gray en">&gt;</span> 交费管理
+				<span class="c-gray en">&gt;</span> 学生交费
+			</nav>
+			<div class="page-container">
+				<div class="cl texts marb">
+					<span class="sear">校区：
+						<select style="padding: 4px 0;" id="search_schoolId">
+							<option value="">请选择校区</option>
+							<option v-for="item in school" :value="item.id">{{item.iname}}</option>
+						</select>
+					</span>&nbsp;&nbsp;
+					<span class="sear">姓名：<input class="serinput" type="text" id="search_studentName" /></span>&nbsp;&nbsp;
+					<span class="sear">学号：<input class="serinput" type="text" id="search_number" /></span>&nbsp;&nbsp;
+					<span class="sear">手机号：<input class="serinput" type="text" id="search_phone" /></span>&nbsp;&nbsp;
+					<span class="sear">性别：
+						<select class="sear" name="" id="search_sex">
+							<option value="">请选择性别</option>
+							<option value="男">男</option>
+							<option value="女">女</option>
+						</select>
+					</span>&nbsp;&nbsp;
+				</div>
+				<div class="cl texts marb">
+					<span class="sear">交费：
+						<select class="serinput" id="search_payState">
+							<option value="">请选择交费模式</option>
+							<option value="B1">未交费</option>
+							<option value="B2">已交费</option>
+						</select>
+					</span>&nbsp;&nbsp;
+					<span class="sear">班级名称：
+						<input class="serinput" type="text" id="search_className" />
+					</span>&nbsp;&nbsp;
+
+
+					<span>
+					<a class="btn btn-danger radius" href="javascript:;" @click="search">
+						查询
+					</a> 
+				</span>
+				</div>
+				<div class="cl texte marb">
+					<span>
+					<a class="btn btn-secondary radius bcolor1" href="javascript:;"
+						download="学员交费.xls"
+						onclick="return ExcellentExport.excel(this, 'datatable', 'Sheet Name Here');" @click="method5('datatable')">
+						导出Excel表格
+					</a> 
+				</span>
+				</div>
+				<table id="datatable" class="table table-border table-bordered table-hover table-bg">
+					<thead>
+						<tr class="text-c">
+							<th class="bcolor1" width="150">学员姓名</th>
+							<th class="bcolor1" width="150">学员学号</th>
+							<th class="bcolor1" width="300">学员电话</th>
+							<th class="bcolor1" width="100">性别</th>
+							<th class="bcolor1" width="400">班级</th>
+							<th class="bcolor1" width="200">选班状态</th>
+							<th class="bcolor1" width="200">收费模式</th>
+							<th class="bcolor1" width="100">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="text-c " v-for="(one,ind) in list">
+							<td>{{one.studentName}}</td>
+							<td>{{one.studentNumber}}</td>
+							<td>{{one.studentPhone}}</td>
+							<td>{{one.studentSex}}</td>
+							<td>{{one.className}}</td>
+							<td><span  v-if=" one.state == 'B1' ">正常</span><span  v-if=" one.state == 'B2' ">毕业</span><span  v-if=" one.state == 'B3' ">转入</span><span v-else> </span></td>
+							<td><span  v-if=" one.chargingMode == 'B1' ">扣课时</span><span  v-if=" one.chargingMode == 'B2' ">按期收费</span></td>
+							<td class="f-14">
+								<a title="交费" href="javascript:;" @click="paymoney(one.classId,one.studentId, one)" class="ml-5">
+									<span  v-if=" one.payState == 'B1' ">交费</span>
+									<span  v-else-if=" one.payState == 'B2' ">续费</span>
+									<span v-else> 交费</span>
+								</a>
+								<a title="转班" href="javascript:;" @click="changeClass(one)" class="ml-5">转班</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<!--转班-->
+				<div style="position: fixed;top: 0;right: 0;bottom: 0;left: 0;background: rgba(0,0,0,0.3);" v-show="isChangeClass">
+					<div class="change_class">
+						<div class="change_class_header">
+							变动 &nbsp;&nbsp;&nbsp;&nbsp;
+						</div>
+						<div class="change_class_body">
+							<div class="change_class_content">
+								<table border="1px" cellpadding="cellpadding">
+									<tr>
+										<td>学员姓名</td>
+										<td>
+											<span>{{changeclass.studentName}}</span>
+										</td>
+										<td>现属班级</td>
+										<td>
+											<span>
+												{{changeclass.className}}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td style="color: red;">已有班级</td>
+										<td colspan="3">
+											<span>
+												{{changeclass.className}}
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td>变动状态</td>
+										<td>
+											<span>
+												转班
+											</span>
+										</td>
+										<td>目标班级</td>
+										<td>
+											<select name="targetclass" id="targetclass">
+												<option v-for="item in changeclasstarget" :value="item.classId">{{item.iname}}</option>
+											</select>
+										</td>
+									</tr>
+								</table>
+							</div>
+							<div class="buttons">
+									<button class="cancel" @click="hideChange()">取消</button>
+									<button class="save_class" @click="sureChange()">确定</button>
+							</div>
+						</div>
+					</div>
+				</div>
+					
+					
+				<div class="pagenum">
+					第{{pagePer}}页（共{{totalPage}}页）
+					<!--首页-->
+					<i class="Hui-iconfont" @click="firstPage()">&#xe67d;</i>
+					<!--上一页-->
+					<i class="Hui-iconfont" @click="prePage()">&#xe6d4;</i>
+
+					<span class="currentPages" @click="changePageFn(0)" style="display: none;">1</span>
+					<span class="currentPages" @click="">1</span>
+					<span class="currentPages" @click="changePageFn(2)" style="display: none;">3</span>
+					<!--下一页-->
+					<i class="Hui-iconfont" @click="nextPage()">&#xe6d7;</i>
+					<!--尾页-->
+					<i class="Hui-iconfont" @click="lastPage()">&#xe63d;</i>
+					到 <input type="text" id="topage" class='topagefn' style="width: 50px;" /> 页
+					 <button style="width: 50px;" @click="tovaluepage()">确定</button>
+				</div>
+			</div>
+			<!--遮罩-->
+			<div id="mark" class="mark"  v-show="ispay"></div>
+			<!--添加管理员-->
+			<div id="pay-money" class="pay-money" v-show="ispay">
+				<div class="div-header">
+					班级名称：{{showClass}} &nbsp;&nbsp;&nbsp;&nbsp;
+					收费模式：<span v-show="showPayStatus === 'B1'">扣课时</span>
+					<span v-show="showPayStatus === 'B2'">按期收费</span>
+				</div>
+				<div class="add-content">
+
+					<div class="inputs pay-money-header">
+						<!--<input type="text" id="schoolname" value="****班/200.0(已上10课时)" />-->
+						<!--<span v-for="item in school">充入课时：<input type="text" :value="item.iclassHour"/><span style="color: #E60012;">&#88;{{item.imoeny}}</span></span>-->
+						
+						<!-- 按期收费 -->
+						<!--<span v-show="showPayStatus === 'B2'" v-for="item in listPer">&nbsp;&nbsp;&nbsp;&nbsp;{{item.name}}: 充入课时：<input type="text" class="dun_imoeny" :value="item.iclassHour" @blur="changeHour(item)" id="b2value"/>
+						<span style="color: #E60012;">&#88;{{item.imoeny}}</span></span>-->
+	
+						<!-- 按课时收费 -->
+						<!--<span v-show="showPayStatus === 'B1'" v-for="item in listPer">&nbsp;&nbsp;&nbsp;&nbsp;{{item.name}} : 充入课时：<input type="text" class="dun_imoeny" :value="item.iclassHour" @blur="changeHour(item)"/>-->
+							<table>
+								<tr v-for="item in listPer"  v-show="showPayStatus === 'B1'">
+									<td>&nbsp;&nbsp;{{item.name}}&nbsp;&nbsp;</td>
+									<td>&nbsp;&nbsp;已经排课时&nbsp;&nbsp;</td>
+									<td>&nbsp;&nbsp;{{item.useClassHour + '' == "null" ? 0 : item.useClassHour}}&nbsp;&nbsp;</td>
+									<td>&nbsp;&nbsp;已充课时&nbsp;&nbsp;</td>
+									<td>&nbsp;&nbsp;{{item.fillingClassHour + '' == "null" ? 0 : item.fillingClassHour}}&nbsp;&nbsp;</td>
+									<td>&nbsp;&nbsp;充入课时&nbsp;&nbsp;</td>
+									
+									<!--<td v-show="showPayStatus === 'B2'">&nbsp;&nbsp;充入期数&nbsp;&nbsp;</td>-->
+									<td>
+										<input class="hoverInput dun_imoeny" style="width: 100%;box-sizing: border-box;border: 1px solid #F2F2F2;"  type="text" v-bind:placeholder="item.useClassHour - item.fillingClassHour <=0 ? 0 : '上限: ' + (item.useClassHour - item.fillingClassHour)" @blur="changeHour(item,$event)"  id="b2value"/>
+									</td>
+									<td style="color: #E60012;">&nbsp;&nbsp;&#88;{{item.imoeny}}&nbsp;&nbsp;</td>
+								</tr>
+								<tr v-show="showPayStatus === 'B2'">
+									<td>&nbsp;&nbsp;充入期数&nbsp;&nbsp;</td>
+									<td>
+										<input class="hoverInput" id="periodInput" style="width: 100%;box-sizing: border-box;border: 1px solid #F2F2F2;" placeholder="请输入整数"  type="text"  @blur="changeHour()" />
+									</td>
+									<td style="color: #E60012;">&nbsp;&nbsp;&#88;{{isHourDatas.tuition}}&nbsp;&nbsp;</td>
+									<td v-show="showPayStatus === 'B2'">&nbsp;&nbsp;&nbsp;&nbsp;应收：
+										<input type="text" style="color: #E60012;" disabled="disabled" :value="isHourDataCount" />
+									</td>
+								</tr>
+							</table>
+							
+							
+						<!--<span v-for="item in listPer">&nbsp;&nbsp;&nbsp;&nbsp;
+							<span v-show="showPayStatus === 'B1'">{{item.name}} : 已经排课时：{{item.useClassHour}}已冲课时：{{item.fillingClassHour}}充入课时：</span>
+							<span v-show="showPayStatus === 'B2'">充入期数：</span>
+							<input type="text" class="dun_imoeny" :value="item.iclassHour" @blur="changeHour(item)"  id="b2value"/>
+						<span style="color: #E60012;">&#88;{{item.imoeny}}</span></span>-->
+
+						<!--<option v-for="item in school" :value="item.id">{{item.iname}}</option>-->
+						<span   v-show="showPayStatus === 'B1'">&nbsp;&nbsp;&nbsp;&nbsp;应收：<input type="text" style="color: #E60012;" v-bind:value="imoenys" disabled="disabled"/></span>
+					</div>
+					<div class="contflex">
+						<div class="add-inputs2">
+							<div class="inputs">
+								<div class="input-title">手工票据号&nbsp;&nbsp;</div> 
+								<div class="input-div">
+									<input type="text" id="schooladdress" class="manPicket" placeholder="请输入"/>&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+								</div>
+							</div>
+							<div class="inputs">
+								<div class="input-title">支付类型&nbsp;&nbsp;</div>
+								<div class="input-div">
+									<!--<input type="text" id="schooladdress payMode" />-->
+									<select name="payMode" id="schooladdress" class="payMode" value="B1">
+										<option value="B1">现金</option>
+										<option value="B2">刷卡</option>
+									</select>&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+								</div>
+							</div>
+						</div>
+						<div class="add-inputs2">
+							<div class="inputs">
+								<div class="input-title">交费日期&nbsp;&nbsp;</div>
+								<div class="input-div">
+									<input type="text" id="schooladdress" class="laydate-icon submitDate" onclick="laydate()" placeholder="请选择日期" />&nbsp;&nbsp;<span style="color: #FF0000;">*</span>
+								</div>
+							</div>
+							<!--<div class="inputs">
+								<div class="input-title">欠费提醒&nbsp;&nbsp;</div>
+								<div class="input-div">
+									<input type="text" id="schooladdress" class="laydate-icon delayDate" onclick="laydate()" />
+								</div>
+							</div>-->
+						</div>
+					</div>
+					<div class="add-inputs inputs-top">
+						<div class="inputs">
+							<div class="input-title">备注&nbsp;&nbsp;</div>
+							<div class="input-div">
+								<textarea rows="3"></textarea>
+							</div>
+						</div>
+					</div>
+					<div class="buttons">
+							<button class="cancel" @click="nopay()">取消</button>
+							<button class="pickup" @click="okpay(showPayStatus)">确定</button>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!--_footer 作为公共模版分离出去-->
+		<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+		<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+		<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+		<script src="static/h-ui.admin/js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/h-ui.admin/js/ip.js" type="text/javascript" charset="utf-8"></script>
+		<!--/_footer 作为公共模版分离出去-->
+
+		<!--请在下方写此页面业务相关的脚本-->
+		<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+		<script src="lib/laydate/laydate.js" type="text/javascript" charset="utf-8"></script>
+		<script src="lib/exportExcel/excellentexport.min.js" type="text/javascript" charset="utf-8"></script>
+
+		<script src="lib/vue/vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/h-ui.admin/js/pay.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

@@ -1,0 +1,107 @@
+@charset "utf-8";
+/* 联系我们 */
+*{
+	box-sizing: border-box;
+}
+/*内容标题*/
+.content-title{
+	border-left: 4px solid #E60012;
+	padding-left: 15px;
+	font-size: 24px;
+	line-height: 1;
+}
+/*内容*/
+.contact-content{
+	width: 100%;
+	margin-top: 40px;
+}
+.contact-content .add-contact{
+	
+}
+.contact-content .add-contact .add-content{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.contact-content .add-contact .add-content .add-inputs{
+	width: 40%;
+}
+.inputs,.inputs2{
+	height: 50px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.inputs{
+	width: 100%;
+}
+.inputs .input-title{
+	width: 30%;
+	text-align: end;
+}
+.inputs .input-div{
+	width: 70%;
+}
+.inputs .input-div input,.inputs2 .input-div2 input{
+	width: 100%;
+	padding: 5px 0;
+	text-indent: 1em;
+	border: none;
+	border: 1px solid #C3C3C3;
+}
+.inputs2{
+	width: 80%;
+	margin: 0 auto;
+}
+.inputs2 .input-title2{
+	width: 15%;
+	text-align: end;
+}
+.inputs2 .input-div2{
+	width: 85%;
+}
+
+/*确认和取消按钮*/
+.buttons{
+	width: 100%;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.buttons button{
+	border: none;
+	padding: 5px 20px;
+	color: #FFFFFF;
+	font-size: 16px;
+	border-radius:5px;
+	margin: 0 20px;
+}
+.buttons .cancel{
+	background-color: #E0E6EB;
+}
+.buttons .pickup{
+	background-color: #97DCFC;
+}
+/*上传图片部分*/
+.upload-img{
+	width: 100%;
+}
+.upload-img input{
+	display: none;
+}
+.upload-img label{
+	cursor: pointer;
+	font-size: 20px;
+}
+.upload-img label span{
+	background-color: #C3C3C3;
+	padding: 5px 10px;
+	border-radius: 3px;
+	color: #FFFFFF;
+	font-size: 14px;
+	margin-right: 10px;
+}
+
+

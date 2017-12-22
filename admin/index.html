@@ -1,0 +1,357 @@
+﻿<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit|ie-comp|ie-stand">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<link rel="Bookmark" href="/favicon.ico">
+		<link rel="Shortcut Icon" href="/favicon.ico" />
+		<!--[if lt IE 9]>
+		<script type="text/javascript" src="lib/html5shiv.js"></script>
+		<script type="text/javascript" src="lib/respond.min.js"></script>
+		<![endif]-->
+		<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+		<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+		<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+		<!--[if IE 6]>
+		<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+		<script>DD_belatedPNG.fix('*');</script>
+		<![endif]-->
+		<title>宏远后台管理系统</title>
+		<!--[if ie]>
+			<script type="text/javascript">
+				window.location.href="./ifie.html";
+			</script>
+		<![end if]-->
+	</head>
+
+	<body>
+		<div id="app">
+		<header class="navbar-wrapper">
+			<div class="navbar navbar-fixed-top">
+				<div class="headerlogo cl">
+					<a class="logo navbar-logo f-l hidden-xs" href="javascript:;">
+						<img src="static/h-ui.admin/images/logo.png"/>
+					</a>
+					<span class="logo navbar-slogan f-l mr-10 hidden-xs"  style="height: 52px;">
+						<img src="static/h-ui.admin/images/logo1.png"/>
+					</span>
+					<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
+						<ul class="cl">
+							<li class="dropDown dropDown_hover" style="display: inline-block;height: 52px;">
+								<a href="#" class="dropDown_A"><i class="Hui-iconfont">&#xe62c;</i> <span id="loginname"></span> <i class="Hui-iconfont">&#xe6d5;</i></a>
+								<ul class="dropDown-menu menu radius box-shadow">
+									<!--<li>
+										<a href="javascript:;" onClick="myselfinfo()">个人信息</a>
+									</li>-->
+									<li>
+										<a href="javascript:;" onclick="switchother()">切换账户</a>
+									</li>
+								</ul>
+							</li>
+							<li id="Hui-skin" class="dropDown right dropDown_hover" onclick="switchother()" style="height: 52px;">
+								<a href="#"><i class="Hui-iconfont">&#xe726;</i> 退出</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</header>
+		<aside class="Hui-aside">
+			<div class="menu_dropdown bk_2">
+				<dl id="menu-article">
+					<dt>&nbsp;&nbsp; <a data-href="welcome.html" data-title="主页" href="javascript:void(0)">主页</a></dt>
+				</dl>
+				<dl id="menu-admin" >
+					<dt class="dropDown_A">&nbsp;&nbsp; 后台管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe67e;</i></dt>
+					<dd>
+						<ul>
+							<li>
+								<a data-href="admin.html" data-title="管理员账号" href="javascript:void(0)"><i class="Hui-iconfont">&#xe619;</i> &nbsp;管理员账号</a>
+							</li>
+						</ul>
+					</dd>
+				</dl>
+				<dl id="menu-school" >
+					<dt>&nbsp;&nbsp; 校园管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe67e;</i></dt>
+					<dd>
+						<ul>
+							<!--分校管理-->
+							<li>
+								<dt>&nbsp;&nbsp; 分校管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe67e;</i></dt>
+								<dd>
+									<ul>
+										<li>
+											<a data-href="branch.html" data-title="分校管理" href="javascript:;"><i class="Hui-iconfont">&#xe619;</i> &nbsp;分校管理</a>
+										</li>
+									</ul>
+								</dd>
+							</li>
+							<!--班级管理-->
+							<li>
+								<dt>&nbsp;&nbsp; 班级管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe67e;</i></dt>
+								<dd>
+									<ul>
+										<li>
+											<a data-href="class.html" data-title="班级管理" href="javascript:;"><i class="Hui-iconfont">&#xe619;</i> &nbsp;班级管理</a>
+										</li>
+									</ul>
+								</dd>
+							</li>
+							<!--学生管理-->
+							<li>
+								<dt>&nbsp;&nbsp; 学生管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe67e;</i></dt>
+								<dd>
+									<ul>
+										<li>
+											<a data-href="student.html" data-title="学生管理" href="javascript:;"><i class="Hui-iconfont">&#xe619;</i> &nbsp;学生管理</a>
+										</li>
+									</ul>
+								</dd>
+							</li>
+							<!--缴费管理-->
+							<li>
+								<dt>&nbsp;&nbsp; 交费管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe67e;</i></dt>
+								<dd>
+									<ul>
+										<li>
+											<a data-href="pay.html" data-title="学生交费" href="javascript:;"><i class="Hui-iconfont">&#xe619;</i> &nbsp;学生交费</a>
+										</li>
+										<li>
+											<a data-href="pay-record.html" data-title="交费记录" href="javascript:;"><i class="Hui-iconfont">&#xe619;</i> &nbsp;交费记录</a>
+										</li>
+									</ul>
+								</dd>
+							</li>
+							<!--课程管理-->
+							<li>
+								<dt>&nbsp;&nbsp; 课程管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe67e;</i></dt>
+								<dd>
+									<ul>
+										<li>
+											<a data-href="curriculum.html" data-title="课程管理" href="javascript:;"><i class="Hui-iconfont">&#xe619;</i> &nbsp;课程管理</a>
+										</li>
+									</ul>
+								</dd>
+							</li>
+						</ul>
+					</dd>
+				</dl>
+				<dl id="menu-home">
+					<dt>&nbsp;&nbsp; 首页管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe67e;</i></dt>
+					<dd>
+						<ul>
+							
+							<!--<li>
+								<a data-href="home-introduce.html" data-title="训练营概述" href="javascript:;"><i class="Hui-iconfont">&#xe619;</i> &nbsp;训练营概述</a>
+							</li>-->
+							<li>
+								<dt>&nbsp;&nbsp; 训练营介绍<i class="Hui-iconfont menu_dropdown-arrow">&#xe67e;</i></dt>
+								<dd>
+									<ul>
+										<li>
+											<a data-href="home-introduce.html" data-title="训练营概述" href="javascript:;"><i class="Hui-iconfont">&#xe619;</i> &nbsp;训练营概述</a>
+										</li>
+										<li>
+											<a data-href="home-league.html" data-title="联盟成员" href="javascript:;"><i class="Hui-iconfont">&#xe619;</i> &nbsp;联盟成员</a>
+										</li>
+									</ul>
+								</dd>
+							</li>
+							<li>
+								<a data-href="home-banner.html" data-title="banner栏" href="javascript:;"><i class="Hui-iconfont">&#xe619;</i> &nbsp;banner栏</a>
+							</li>
+							<!--<li>
+								<a data-href="home-league.html" data-title="联盟成员" href="javascript:;"><i class="Hui-iconfont">&#xe619;</i> &nbsp;联盟成员</a>
+							</li>-->
+							<li>
+								<a data-href="home-course.html" data-title="课程介绍" href="javascript:;"><i class="Hui-iconfont">&#xe619;</i> &nbsp;课程介绍</a>
+							</li>
+							<li>
+								<a data-href="home-coach.html" data-title="教练团队" href="javascript:;"><i class="Hui-iconfont">&#xe619;</i> &nbsp;教练团队</a>
+							</li>
+							<li>
+								<a data-href="home-star.html" data-title="明星学员" href="javascript:;"><i class="Hui-iconfont">&#xe619;</i> &nbsp;明星学员</a>
+							</li>
+							<li>
+								<a data-href="home-club.html" data-title="宏远俱乐部" href="javascript:;"><i class="Hui-iconfont">&#xe619;</i> &nbsp;宏远俱乐部</a>
+							</li>
+						</ul>
+					</dd>
+				</dl>
+				<!--<dl id="menu-introduce">
+					<dt>&nbsp;&nbsp; 训练营介绍<i class="Hui-iconfont menu_dropdown-arrow">&#xe67e;</i></dt>
+					<dd>
+						<ul>
+							<li>
+									<a data-href="camp-introduce.html" data-title="简介管理" href="javascript:;"><i class="Hui-iconfont">&#xe619;</i> &nbsp;简介管理</a>
+										
+							</li>
+						</ul>
+					</dd>
+				</dl>-->
+				<dl id="menu-articles">
+					<dt>&nbsp;&nbsp; 训练营动态<i class="Hui-iconfont menu_dropdown-arrow">&#xe67e;</i></dt>
+					<dd>
+						<ul>
+							<li>
+									<a data-href="camp-news.html" data-title="动态管理" href="javascript:;"><i class="Hui-iconfont">&#xe619;</i> &nbsp;动态管理</a>
+										
+							</li>
+						</ul>
+					</dd>
+				</dl>
+
+				<dl id="menu-video">
+					<dt>&nbsp;&nbsp; 教学视频<i class="Hui-iconfont menu_dropdown-arrow">&#xe67e;</i></dt>
+					<dd>
+						<ul>
+							<li>
+									<a data-href="teach-video.html" data-title="视频管理" href="javascript:;"><i class="Hui-iconfont">&#xe619;</i> &nbsp;视频管理</a>
+										
+							</li>
+						</ul>
+					</dd>
+				</dl>
+				<dl id="menu-course">
+					<dt>&nbsp;&nbsp; 课程服务<i class="Hui-iconfont menu_dropdown-arrow">&#xe67e;</i></dt>
+					<dd>
+						<ul>
+							<li>
+								<a data-href="course-service.html" data-title="图文管理" href="javascript:;"><i class="Hui-iconfont">&#xe619;</i> &nbsp;图文管理</a>
+							</li>
+						</ul>
+					</dd>
+				</dl>
+				<dl id="menu-contact">
+					<dt>&nbsp;&nbsp; 联系我们<i class="Hui-iconfont menu_dropdown-arrow">&#xe67e;</i></dt>
+					<dd>
+						<ul>
+							<li>
+								<a data-href="contact-us.html" data-title="联系我们" href="javascript:;"><i class="Hui-iconfont">&#xe619;</i> &nbsp;联系我们</a>
+							</li>
+						</ul>
+					</dd>
+				</dl>
+
+			</div>
+		</aside>
+		<!--<div class="dislpayArrow hidden-xs">
+			<a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a>
+		</div>-->
+		<section class="Hui-article-box">
+			<div id="Hui-tabNav" class="Hui-tabNav hidden-xs">
+				<div class="Hui-tabNav-wp">
+					<ul id="min_title_list" class="acrossTab cl">
+						<li class="active">
+							<span title="主页" data-href="welcome.html">主页</span>
+							<em></em></li>
+					</ul>
+				</div>
+				<div class="Hui-tabNav-more btn-group">
+					<a id="js-tabNav-prev" class="btn radius btn-default size-S" href="javascript:;"><i class="Hui-iconfont">&#xe6d4;</i></a>
+					<a id="js-tabNav-next" class="btn radius btn-default size-S" href="javascript:;"><i class="Hui-iconfont">&#xe6d7;</i></a>
+				</div>
+			</div>
+			<div id="iframe_box" class="Hui-article">
+				<div class="show_iframe">
+					<div style="display:none" class="loading"></div>
+					<iframe scrolling="yes" frameborder="0" src="welcome.html"></iframe>
+				</div>
+			</div>
+		</section>
+
+		<div class="contextMenu" id="Huiadminmenu">
+			<ul>
+				<li id="closethis">关闭当前 </li>
+				<li id="closeall">关闭全部 </li>
+			</ul>
+		</div>
+		</div>
+		<!--_footer 作为公共模版分离出去-->
+		<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
+		<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+		<script type="text/javascript" src="static/h-ui/js/H-ui.min.js"></script>
+		<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.js"></script>
+		<script src="static/h-ui.admin/js/ip.js" type="text/javascript" charset="utf-8"></script>
+		<!--/_footer 作为公共模版分离出去-->
+
+		<!--请在下方写此页面业务相关的脚本-->
+		<script src="static/h-ui.admin/js/config.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
+		<script type="text/javascript">
+			//切换用户
+			function switchother() {
+				sessionStorage.removeItem("hongyuan");
+				location.href = 'login.html';
+			}
+			var userinfo = sessionStorage.getItem("hongyuan");
+			
+			
+			if(userinfo==undefined || userinfo==null){
+				location.href = 'login.html';
+			}else{
+				var logininfos = JSON.parse(userinfo);
+				if(logininfos.token==undefined || logininfos.token==null || logininfos.token==""){
+					location.href = 'login.html';
+				}
+				var username = logininfos.data.username;
+				$('#loginname').html(username);
+				var admin = school = home = introduce = article = video = course = contact = true;
+				var x ;
+				for(x in logininfos.data.menuId){
+//					console.log(x);
+//					console.log(logininfos.data.menuId[x]);
+					if(logininfos.data.menuId[x]==1){
+						admin = false;
+					}else if(logininfos.data.menuId[x]==8){
+						school = false;
+					}else if(logininfos.data.menuId[x]==2){
+						home = false;
+					}else if(logininfos.data.menuId[x]==3){
+						introduce = false;
+					}else if(logininfos.data.menuId[x]==4){
+						article = false;
+					}else if(logininfos.data.menuId[x]==5){
+						video = false;
+					}else if(logininfos.data.menuId[x]==6){
+						course = false;
+					}else if(logininfos.data.menuId[x]==7){
+						contact = false;
+					}
+				}
+				if(admin){
+					$("#menu-admin").remove();
+				}
+				if(school){
+					$("#menu-school").remove();
+				}
+				if(home){
+					$("#menu-home").remove();
+				}
+				if(introduce){
+					$("#menu-introduce").remove();
+				}
+				if(article){
+					$("#menu-articles").remove();
+				}
+				if(video){
+					$("#menu-video").remove();
+				}
+				if(course){
+					$("#menu-course").remove();
+				}
+				if(contact){
+					$("#menu-contact").remove();
+				}
+			}
+		</script>
+			
+	</body>
+
+</html>
